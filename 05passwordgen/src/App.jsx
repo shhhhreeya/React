@@ -2,13 +2,13 @@ import { useCallback, useState, useEffect, useRef } from 'react'
 import './App.css'
 
 function App() {
-  const [length, setLength] = useState(8)
+  const [length, setLength] = useState(8) //usestate: A variable that React remembers and shows in the UI
   const[numberallowed, setNumberAllowed] = useState(false)
   const[symbolallowed, setSymbolAllowed] = useState(false)
   const[password, setPassword] = useState('')
 
-  const passwordRef = useRef(null)
-    const generatePassword  = useCallback(() => {
+  const passwordRef = useRef(null) //useRef: A box that stores a value without causing re-render
+    const generatePassword  = useCallback(() => { //usecallback: Stops React from creating a new function on every render(not needed here)
       let pass = ""
       let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
       if(numberallowed){
@@ -22,14 +22,14 @@ function App() {
         pass += str.charAt(char)
       }
       setPassword(pass)
-    }, [length, numberallowed, symbolallowed])
+    }, [length, numberallowed, symbolallowed]) //React creates this function. If length, numberallowed, or symbolallowed change, react creates a new version of the function. Otherwise: React reuses the same function.
 
     const copyPasswordToClipboard = () => {
       window.navigator.clipboard.writeText(password)
       passwordRef.current?.select()
     }
 
-    useEffect(() => {
+    useEffect(() => { //useeffect: Runs code after React finishes rendering (When these values (length, numberallowed, symbolallowed) change, then run this code.)
       generatePassword()
     }, [length, numberallowed, symbolallowed])
 
